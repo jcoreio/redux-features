@@ -12,14 +12,10 @@ export default function featuresReducer<S, A>(
 ): Reducer<Features<S, A>, FeatureAction> {
   const createReducer = config.createReducer || defaultCreateReducer
 
-  function setFeature(state: Features<S, A>, {payload, meta: {id}}: FeatureAction): Features<S, A> {
-    return {...state, [id]: payload}
-  }
-
   return createReducer({
-    [ADD_FEATURE]: setFeature,
-    [INSTALL_FEATURE]: setFeature,
-    [REPLACE_FEATURE]: setFeature,
+    [ADD_FEATURE]: (state, {payload, meta: {id}}) => state[id] ? state : {...state, [id]: payload},
+    [INSTALL_FEATURE]: (state, {payload, meta: {id}}) => ({...state, [id]: payload}),
+    [REPLACE_FEATURE]: (state, {payload, meta: {id}}) => state[id] ? {...state, [id]: payload} : state,
   }, {})
 }
 

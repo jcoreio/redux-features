@@ -12,11 +12,11 @@ export default function featureStatesReducer(
 ): Reducer<FeatureStates, FeatureAction> {
   const createReducer = config.createReducer || defaultCreateReducer
   return createReducer({
-    [ADD_FEATURE]: (state, {meta: {id}}) => ({...state, [id]: 'NOT_LOADED'}),
-    [LOAD_FEATURE]: (state, {meta: {id}}) => ({...state, [id]: 'LOADING'}),
-    [INSTALL_FEATURE]: (state, {meta: {id}}) => ({...state, [id]: 'LOADED'}),
+    [ADD_FEATURE]: (state, {meta: {id}}) => (state[id] ? state : {...state, [id]: 'NOT_LOADED'}),
+    [LOAD_FEATURE]: (state, {meta: {id}}) => (state[id] && state[id] !== 'LOADED' ? {...state, [id]: 'LOADING'} : state),
+    [INSTALL_FEATURE]: (state, {meta: {id}}) => (state[id] ? {...state, [id]: 'LOADED'} : state),
     [REPLACE_FEATURE]: state => state,
-    [SET_FEATURE_STATE]: (state, {payload, meta: {id}}) => ({...state, [id]: payload}),
+    [SET_FEATURE_STATE]: (state, {payload, meta: {id}}) => (state[id] ? {...state, [id]: payload} : state),
   }, {})
 }
 
