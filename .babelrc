@@ -1,6 +1,10 @@
 {
-  "presets": ["es2015", "stage-1", "flow"],
-  "plugins": ["transform-runtime"],
+  "presets": ["es2015", "stage-1"],
+  "plugins": [
+    "transform-runtime",
+    "syntax-flow",
+    "transform-flow-comments"
+  ],
   "env": {
     "test": {
       "plugins": ["istanbul"]
