@@ -99,3 +99,5 @@ declare export function featureMiddlewaresMiddleware<S, A>(
     composeMiddleware?: ComposeMiddleware<S, A>,
   }
 ): Middleware<S, A>
+
+declare export function composeReducers<S, A>(...reducers: Array<Reducer<S, A>>): Reducer<S, A>
