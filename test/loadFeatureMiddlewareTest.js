@@ -1,6 +1,10 @@
-import {createStore, applyMiddleware} from 'redux'
+/* eslint-env node */
+
+import {createStore, applyMiddleware, combineReducers} from 'redux'
+import featuresReducer from '../src/featuresReducer'
+import featureStatesReducer from '../src/featureStatesReducer'
 import loadFeatureMiddleware from '../src/loadFeatureMiddleware'
-import {loadFeature, setFeatureState, installFeature} from '../src/actions'
+import {loadFeature, setFeatureState, installFeature, loadInitialFeatures} from '../src/actions'
 import {expect} from 'chai'
 import sinon from 'sinon'
 
@@ -149,5 +153,75 @@ describe('loadFeatureMiddleware', () => {
       .then(feature => {
         expect(feature).to.equal(loadedFeature)
       })
+  })
+  describe("on loadInitialFeatures", () => {
+    it("dispatches loadFeature action for each LOADED feature", () => {
+      let store = createTestStore({
+        featureStates: {
+          f1: 'LOADED',
+          f2: 'LOADED',
+          f3: 'NOT_LOADED',
+        },
+        features: {
+          f1: { },
+          f2: { },
+          f3: { },
+        }
+      })
+      return store.dispatch(loadInitialFeatures())
+        .then(() => {
+          expect(reducer.calledWith(
+            store.getState(),
+            loadFeature('f1')
+          )).to.be.true
+          expect(reducer.calledWith(
+            store.getState(),
+            loadFeature('f2')
+          )).to.be.true
+          expect(reducer.calledWith(
+            store.getState(),
+            loadFeature('f3')
+          )).to.be.false
+        })
+    })
+    it("returns a promise that resolves when all features are loaded", () => {
+      const store = createStore(combineReducers({
+        featureStates: featureStatesReducer(),
+        features: featuresReducer(),
+      }), {
+        featureStates: {
+          f1: 'LOADED',
+          f2: 'LOADED',
+          f3: 'NOT_LOADED',
+        },
+        features: {
+          f1: {
+            load: () => new Promise(resolve => setTimeout(() => resolve({a: 1}), 50))
+          },
+          f2: {
+            load: () => new Promise(resolve => setTimeout(() => resolve({b: 2}), 100))
+          },
+          f3: { },
+        }
+      }, applyMiddleware(loadFeatureMiddleware()))
+      return store.dispatch(loadInitialFeatures())
+        .then(() => {
+          expect(store.getState()).to.deep.equal({
+            featureStates: {
+              f1: 'LOADED',
+              f2: 'LOADED',
+              f3: 'NOT_LOADED',
+            },
+            features: {
+              f1: {a: 1},
+              f2: {b: 2},
+              f3: {},
+            }
+          })
+        })
+    })
+    it("returns a promise that rejects when any feature fails to load", () => {
+
+    })
   })
 })

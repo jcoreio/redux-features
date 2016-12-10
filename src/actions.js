@@ -8,7 +8,7 @@ export const REPLACE_FEATURE = ACTION_TYPE_PREFIX + 'REPLACE_FEATURE'
 export const LOAD_FEATURE = ACTION_TYPE_PREFIX + 'LOAD_FEATURE'
 export const INSTALL_FEATURE = ACTION_TYPE_PREFIX + 'INSTALL_FEATURE'
 export const SET_FEATURE_STATE = ACTION_TYPE_PREFIX + 'SET_FEATURE_STATE'
-
+export const LOAD_INITIAL_FEATURES = ACTION_TYPE_PREFIX + 'LOAD_INITIAL_FEATURES'
 
 export function addFeature<S, A>(id: string, feature: Feature<S, A>): FeatureAction {
   return {
@@ -46,5 +46,11 @@ export function setFeatureState(id: string, payload: FeatureState): FeatureActio
     type: SET_FEATURE_STATE,
     payload,
     meta: {id}
+  }
+}
+
+export function loadInitialFeatures(): FeatureAction {
+  return {
+    type: LOAD_INITIAL_FEATURES
   }
 }

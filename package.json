@@ -82,7 +82,9 @@
     "semantic-release": "^6.3.2",
     "sinon": "^1.17.6"
   },
-  "dependencies": {},
+  "dependencies": {
+    "lodash.mapvalues": "^4.6.0"
+  },
   "pre-commit": [
     "lint",
     "flow"

@@ -1,7 +1,9 @@
 import featureStatesReducer from '../src/featureStatesReducer'
 import {expect} from 'chai'
 import {createReducer} from 'mindfront-redux-utils'
-import {addFeature, loadFeature, installFeature, replaceFeature, setFeatureState} from '../src/actions'
+import {
+  addFeature, loadFeature, installFeature, replaceFeature, setFeatureState, loadInitialFeatures
+} from '../src/actions'
 
 describe('featureStatesReducer', () => {
   const reducer = featureStatesReducer()
@@ -39,6 +41,14 @@ describe('featureStatesReducer', () => {
     expect(reducer({}, setFeatureState('a', 'LOADING'))).to.deep.equal({})
     expect(reducer({a: 'NOT_LOADED'}, setFeatureState('a', 'LOADING'))).to.deep.equal({a: 'LOADING'})
     expect(reducer({a: 'LOADED'}, setFeatureState('a', 'LOADING'))).to.deep.equal({a: 'LOADING'})
+  })
+  it('handles loadInitialFeatures correctly', () => {
+    expect(reducer({}, loadInitialFeatures())).to.deep.equal({})
+    expect(reducer({a: 'NOT_LOADED', b: 'LOADING', c: 'LOADED'}, loadInitialFeatures())).to.deep.equal({
+      a: 'NOT_LOADED',
+      b: 'LOADING',
+      c: 'LOADING',
+    })
   })
 })
 
