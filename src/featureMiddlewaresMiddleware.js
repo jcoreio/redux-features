@@ -11,7 +11,7 @@ export default function featureMiddlewaresMiddleware<S, A: {type: $Subtype<strin
     composeMiddleware?: ComposeMiddleware<S, A>,
   } = {}
 ): Middleware<S, A> {
-  const getFeatures = config.getFeatures || ((state: any) => state.features)
+  const getFeatures = config.getFeatures || ((state: any) => state && state.features)
   const composeMiddleware = config.composeMiddleware || defaultComposeMiddleware
 
   const selectFeatureMiddleware: (state: S) => Middleware<S, A> = createSelector(

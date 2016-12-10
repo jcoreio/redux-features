@@ -9,8 +9,8 @@ export default function loadFeatureMiddleware<S, A: {type: $Subtype<string>}>(
     getFeatureStates?: (state: S) => ?FeatureStates,
   } = {}
 ): Middleware<S, A | FeatureAction> {
-  const getFeatures = config.getFeatures || ((state: any) => state.features)
-  const getFeatureStates = config.getFeatureStates || ((state: any) => state.featureStates)
+  const getFeatures = config.getFeatures || ((state: any) => state && state.features)
+  const getFeatureStates = config.getFeatureStates || ((state: any) => state && state.featureStates)
 
   return (store: MiddlewareAPI<S, A | FeatureAction>) => (next: Dispatch<A | FeatureAction>) => (action: any): any => {
     const id = action.meta && action.meta.id
@@ -22,7 +22,11 @@ export default function loadFeatureMiddleware<S, A: {type: $Subtype<string>}>(
     const featureState = (getFeatureStates(store.getState()) || {})[id]
     if (feature) {
       if (featureState === 'LOADED') return Promise.resolve(feature)
-      if (!(feature.load instanceof Function)) return Promise.reject(new Error('missing load method for feature id: ' + id))
+      if (!(feature.load instanceof Function)) {
+        const error = new Error('missing load method for feature id: ' + id)
+        store.dispatch(setFeatureState(id, error))
+        return Promise.reject(error)
+      }
 
       return (
         feature.load(store)
@@ -36,6 +40,7 @@ export default function loadFeatureMiddleware<S, A: {type: $Subtype<string>}>(
           })
       )
     }
+    return Promise.reject(new Error('missing feature for id: ', +id))
   }
 }
 

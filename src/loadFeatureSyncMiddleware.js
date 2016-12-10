@@ -9,8 +9,8 @@ export default function loadFeatureSyncMiddleware<S, A: {type: $Subtype<string>}
     getFeatureStates?: (state: S) => ?FeatureStates,
   } = {}
 ): Middleware<S, A | FeatureAction> {
-  const getFeatures = config.getFeatures || ((state: any) => state.features)
-  const getFeatureStates = config.getFeatureStates || ((state: any) => state.featureStates)
+  const getFeatures = config.getFeatures || ((state: any) => state && state.features)
+  const getFeatureStates = config.getFeatureStates || ((state: any) => state && state.featureStates)
 
   return (store: MiddlewareAPI<S, A | FeatureAction>) => (next: Dispatch<A | FeatureAction>) => (action: Object): any => {
     const id = action.meta && action.meta.id
@@ -21,20 +21,23 @@ export default function loadFeatureSyncMiddleware<S, A: {type: $Subtype<string>}
     const feature = (getFeatures(store.getState()) || {})[id]
     const featureState = (getFeatureStates(store.getState()) || {})[id]
     if (feature) {
-      if (featureState === 'LOADED') return Promise.resolve(feature)
+      if (featureState === 'LOADED') return feature
       if (!(feature.loadSync instanceof Function)) {
-        throw new Error('missing loadSync method for feature id: ' + id)
+        const error = new Error('missing loadSync method for feature id: ' + id)
+        store.dispatch(setFeatureState(id, error))
+        throw error
       }
 
       try {
         const loadedFeature = feature.loadSync(store)
-        store.dispatch((installFeature(id, loadedFeature): any))
+        store.dispatch(installFeature(id, loadedFeature))
         return loadedFeature
       } catch (error) {
-        store.dispatch((setFeatureState(id, error): any))
+        store.dispatch(setFeatureState(id, error))
         throw error
       }
     }
+    throw new Error('missing feature for id: ' + id)
   }
 }
 

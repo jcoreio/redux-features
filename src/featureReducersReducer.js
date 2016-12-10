@@ -11,7 +11,7 @@ export default function featureReducersReducer<S, A>(
     composeReducers?: ComposeReducers<S, A>,
   } = {}
 ): Reducer<S, A> {
-  const getFeatures = config.getFeatures || (state => state.features)
+  const getFeatures = config.getFeatures || (state => state && state.features)
   const composeReducers = config.composeReducers || defaultComposeReducers
 
   const selectFeatureReducers: (state: S) => Reducer<S, A> = createSelector(
