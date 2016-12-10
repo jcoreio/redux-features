@@ -1,4 +1,101 @@
 // @flow
 
+/*
 
-declare module.exports: {};
+ S = State
+ A = Action
+
+ */
+
+export type Dispatch<A> = (action: A) => any
+
+export type MiddlewareAPI<S, A> = {
+  dispatch: Dispatch<A>,
+  getState(): S,
+}
+
+export type Store<S, A> = {
+  dispatch: Dispatch<A>,
+  getState(): S,
+  subscribe(listener: () => void): () => void,
+  replaceReducer(nextReducer: Reducer<S, A>): void,
+}
+
+export type Reducer<S, A> = (state: S, action: A) => S
+
+export type Middleware<S, A> =
+  (api: MiddlewareAPI<S, A>) =>
+    (next: Dispatch<A>) => Dispatch<A>
+
+export type ActionCreator<A> = (...args: Array<any>) => A
+export type ActionCreators<K, A> = { [key: K]: ActionCreator<A> }
+
+export type CreateReducer<S, A> = (actionHandlers: {[key: any]: Reducer<any, A>}, initialState?: S) => Reducer<S, A>
+export type ComposeReducers<S, A> = (...reducers: Array<Reducer<S, A>>) => Reducer<S, A>
+export type ComposeMiddleware<S, A> = (...middlewares: Array<Middleware<S, A>>) => Middleware<S, A>
+
+export type FeatureState = 'NOT_LOADED' | 'LOADING' | 'LOADED' | Error
+export type FeatureStates = {[featureId: string]: FeatureState}
+
+export type Feature<S, A> = {
+  load?: (store: MiddlewareAPI<S, A>) => Promise<Feature<S, A>>,
+  loadSync?: (store: MiddlewareAPI<S, A>) => Feature<S, A>,
+  middleware?: Middleware<S, A>,
+  reducer?: Reducer<S, A>,
+}
+export type Features<S, A> = {[featureId: string]: Feature<S, A>}
+
+declare export var ACTION_TYPE_PREFIX: string
+declare export var ADD_FEATURE: string
+declare export var LOAD_FEATURE: string
+declare export var INSTALL_FEATURE: string
+declare export var REPLACE_FEATURE: string
+declare export var SET_FEATURE_STATUS: string
+
+export type FeatureAction = {
+  type: string,
+  payload?: any,
+  meta: {id: string},
+}
+
+declare export function addFeature<S, A>(id: string, feature: Feature<S, A>): FeatureAction
+declare export function replaceFeature<S, A>(id: string, feature: Feature<S, A>): FeatureAction
+declare export function loadFeature(id: string): FeatureAction
+declare export function installFeature<S, A>(id: string, feature: Feature<S, A>): FeatureAction
+declare export function setFeatureState(id: string, payload: FeatureState): FeatureAction
+
+declare export function featuresReducer<S, A>(
+  config?: {createReducer?: CreateReducer<Features<S, A>, FeatureAction>}
+): Reducer<Features<S, A>, FeatureAction>
+
+declare export function featureStatesReducer<S>(
+  config?: {createReducer?: CreateReducer<FeatureStates, FeatureAction>}
+): Reducer<FeatureStates, FeatureAction>
+
+declare export function featureReducersReducer<S, A>(
+  config?: {
+    getFeatures?: (state: S) => ?Features<S, A>,
+    composeReducers?: ComposeReducers<S, A>,
+  }
+): Reducer<S, A>
+
+declare export function loadFeatureMiddleware<S, A: {+type?: string, +payload?: Feature<any, any>, +meta?: Object}>(
+  config?: {
+    getFeatures?: (state: S) => ?Features<S, A>,
+    getFeatureStates?: (state: S) => ?FeatureStates,
+  }
+): Middleware<S, A>
+
+declare export function loadFeatureSyncMiddleware<S, A: {+type?: string, +payload?: Feature<any, any>, +meta?: Object}>(
+  config?: {
+    getFeatures?: (state: S) => ?Features<S, A>,
+    getFeatureStates?: (state: S) => ?FeatureStates,
+  }
+): Middleware<S, A>
+
+declare export function featureMiddlewaresMiddleware<S, A>(
+  config?: {
+    getFeatures?: (state: S) => ?Features<S, A>,
+    composeMiddleware?: ComposeMiddleware<S, A>,
+  }
+): Middleware<S, A>
