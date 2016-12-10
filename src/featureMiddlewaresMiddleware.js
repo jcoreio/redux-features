@@ -5,7 +5,7 @@ import type {Features, Middleware, ComposeMiddleware} from './index.js.flow'
 
 import {defaultComposeMiddleware} from './config'
 
-export default function featureMiddlewaresMiddleware<S, A>(
+export default function featureMiddlewaresMiddleware<S, A: {type: $Subtype<string>}>(
   config?: {
     getFeatures?: (state: S) => ?Features<S, A>,
     composeMiddleware?: ComposeMiddleware<S, A>,

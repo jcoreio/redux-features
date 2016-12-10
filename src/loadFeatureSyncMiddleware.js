@@ -1,18 +1,18 @@
 // @flow
 
-import type {Middleware, Feature, Features, FeatureStates, MiddlewareAPI, Dispatch} from './index.js.flow'
+import type {Middleware, Features, FeatureStates, MiddlewareAPI, Dispatch, FeatureAction} from './index.js.flow'
 import {LOAD_FEATURE, installFeature, setFeatureState} from './actions'
 
-export default function loadFeatureSyncMiddleware<S, A: {+type?: string, +payload?: Feature<any, any>, +meta?: Object}>(
+export default function loadFeatureSyncMiddleware<S, A: {type: $Subtype<string>}>(
   config?: {
     getFeatures?: (state: S) => ?Features<S, A>,
     getFeatureStates?: (state: S) => ?FeatureStates,
   } = {}
-): Middleware<S, A> {
+): Middleware<S, A | FeatureAction> {
   const getFeatures = config.getFeatures || ((state: any) => state.features)
   const getFeatureStates = config.getFeatureStates || ((state: any) => state.featureStates)
 
-  return (store: MiddlewareAPI<S, A>) => (next: Dispatch<A>) => (action: A): any => {
+  return (store: MiddlewareAPI<S, A | FeatureAction>) => (next: Dispatch<A | FeatureAction>) => (action: Object): any => {
     const id = action.meta && action.meta.id
     if (action.type !== LOAD_FEATURE || typeof id !== 'string') return next(action)
 

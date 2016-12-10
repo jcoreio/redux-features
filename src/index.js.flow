@@ -7,7 +7,7 @@
 
  */
 
-export type Dispatch<A> = (action: A) => any
+export type Dispatch<A: { type: $Subtype<string> }> = (action: A) => any
 
 export type MiddlewareAPI<S, A> = {
   dispatch: Dispatch<A>,
@@ -55,7 +55,7 @@ declare export var SET_FEATURE_STATUS: string
 export type FeatureAction = {
   type: string,
   payload?: any,
-  meta: {id: string},
+  meta?: {id: string},
 }
 
 declare export function addFeature<S, A>(id: string, feature: Feature<S, A>): FeatureAction

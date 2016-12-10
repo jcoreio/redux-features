@@ -7,6 +7,7 @@
 ./test
 
 [libs]
+./flowlib
 
 [options]
 module.system=node
