@@ -63,6 +63,7 @@ declare export function replaceFeature<S, A>(id: string, feature: Feature<S, A>)
 declare export function loadFeature(id: string): FeatureAction
 declare export function installFeature<S, A>(id: string, feature: Feature<S, A>): FeatureAction
 declare export function setFeatureState(id: string, payload: FeatureState): FeatureAction
+declare export function loadInitialFeatures(): FeatureAction
 
 declare export function featuresReducer<S, A>(
   config?: {createReducer?: CreateReducer<Features<S, A>, FeatureAction>}
