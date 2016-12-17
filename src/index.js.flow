@@ -39,7 +39,6 @@ export type FeatureStates = {[featureId: string]: FeatureState}
 
 export type Feature<S, A> = {
   load?: (store: MiddlewareAPI<S, A>) => Promise<Feature<S, A>>,
-  loadSync?: (store: MiddlewareAPI<S, A>) => Feature<S, A>,
   middleware?: Middleware<S, A>,
   reducer?: Reducer<S, A>,
 }
@@ -81,13 +80,6 @@ declare export function featureReducersReducer<S, A>(
 ): Reducer<S, A>
 
 declare export function loadFeatureMiddleware<S, A: {+type?: string, +payload?: Feature<any, any>, +meta?: Object}>(
-  config?: {
-    getFeatures?: (state: S) => ?Features<S, A>,
-    getFeatureStates?: (state: S) => ?FeatureStates,
-  }
-): Middleware<S, A>
-
-declare export function loadFeatureSyncMiddleware<S, A: {+type?: string, +payload?: Feature<any, any>, +meta?: Object}>(
   config?: {
     getFeatures?: (state: S) => ?Features<S, A>,
     getFeatureStates?: (state: S) => ?FeatureStates,

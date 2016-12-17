@@ -4,7 +4,6 @@ import featuresReducer from './featuresReducer'
 import featureStatesReducer from './featureStatesReducer'
 import featureReducersReducer from './featureReducersReducer'
 import loadFeatureMiddleware from './loadFeatureMiddleware'
-import loadFeatureSyncMiddleware from './loadFeatureSyncMiddleware'
 import featureMiddlewaresMiddleware from './featureMiddlewaresMiddleware'
 import {defaultComposeReducers} from './config'
 import {
@@ -18,7 +17,6 @@ export {
   featureStatesReducer,
   featureReducersReducer,
   loadFeatureMiddleware,
-  loadFeatureSyncMiddleware,
   featureMiddlewaresMiddleware,
   defaultComposeReducers as composeReducers,
   ACTION_TYPE_PREFIX,
