@@ -103,6 +103,16 @@ store.dispatch(loadFeature('counter'))
   })
 ```
 
+## But Redux state shouldn't contain functions, React components, etc.!!
+
+Yes, I understand.  I thought about ways to store the functions, React components, etc. for features outside of
+Redux state, and I came to the conclusion that it's best to just keep them in the Redux state.  Here's why:
+* The alternative would be separate store and provider of some sort to pass down features' functions and components
+through React context.
+* All of the non-serializable feature functions and components are organized in a single subtree of your state that is
+easy to strip out before serializing (and I designed this so that it's easy to do that in SSR and then load the features
+properly on the client).  That's way simpler than setting up a separate store and provider for feature content.
+
 ## Setup
 
 There are 3 things you must hook into your redux store to use `redux-features`:
@@ -250,3 +260,153 @@ const store = createStore(reducer, applyMiddleware(
 ))
 ```
 
+## Server-side rendering
+
+Loading features during SSR, and then again on the client, when bootstrapping, takes a bit of extra effort.  There are
+two options:
+* Manually dispatch `loadFeature` actions applicable to the requested route.
+* Do two-pass rendering:
+  * Create the store with a middleware that keeps track of `loadFeature` promises
+  * Render the app in your first pass with components that dispatch the applicable `loadFeature` events (e.g.
+    `featureLoader`s from `react-redux-features`
+  * Wait for the `loadFeature` promises to resolve
+  * Render again, which will now include the loaded feature components, and send it to the client
+
+On the client, after you create your store from the initial server-side redux state, dispatch the `loadInitialFeatures`
+action, which will load all the features that were loaded on the server side.
+
+### Example
+
+#### reducer.js
+```es6
+import {composeReducers, featuresReducer, featureStatesReducer, featureReducersReducer} from 'redux-features'
+
+export default composeReducers(
+  combineReducers({
+    features: featuresReducer(),
+    featureStates: featureStatesReducer(),
+  }),
+  featureReducersReducer()
+)
+```
+
+#### counterFeature.js
+```es6
+export default {
+  load: (store) => Promise.resolve({
+    reducer: (state, action) => action.type === 'INCREMENT' ? {...state, count: (state.count || 0) + 1} : state,
+    Counter: connect(({count}) => ({count}))(({count}) => <div>{`Counter: ${count || 0}`}</div>),
+  })
+}
+```
+
+#### Counter.js
+```es6
+import React from 'react'
+import {featureLoader} from 'react-redux-features'
+
+const Counter = featureLoader({
+  featureId: 'counter',
+  render({featureState, feature, props}) {
+    const Comp = feature && feature.Counter
+    if (featureState instanceof Error) {
+       return <div className="alert alert-danger">Failed to load counter: {featureState.message}</div>
+    } else if (!Comp) {
+      return <div className="alert alert-info">Loading counter...</div>
+    }
+    return <Comp {...props} />
+  }
+})
+```
+
+#### serverSideRender.js
+
+```es6
+import React from 'react'
+import {renderToString} from 'react-dom/server'
+import {combineReducers, createStore, applyMiddleware} from 'redux'
+import {connect, Provider} from 'react-redux'
+import {loadFeatureMiddleware, featureMiddlewaresMiddleware, addFeature, LOAD_FEATURE} from 'redux-features'
+import reducer from './reducer'
+import counterFeature from './counterFeature'
+import Counter from './Counter'
+
+async function serverSideRender(request, response) {
+  const featurePromises = []
+
+  const store = createStore(
+    reducer,
+    applyMiddleware(
+      store => next => action => {
+        const result = next(action)
+        if (action.type === LOAD_FEATURE) featurePromises.push(result)
+        return result
+      },
+      loadFeatureMiddleware(),
+      featureMiddlewaresMiddleware(),
+    )
+  )
+
+  store.dispatch(addFeature('counter', counterFeature))
+
+  const app = (
+    <Provider store={store}>
+      <Counter />
+    </Provider>
+  )
+  renderToString(app)
+  try {
+    await Promise.all(featurePromises)
+  } catch (error) {
+    response.status(500).send(error.stack)
+  }
+
+  const body = renderToString(app)
+
+  const {features, ...initialState} = store.getState()
+
+  response.status(200).send(`<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript">
+      window.__INITIAL_STATE__ = ${JSON.stringify(initialState)}
+    </script>
+    <script src="/client.js">
+  </head>
+  <body>
+    <div id="root">${body}</div>
+  </body>
+</html>`)
+}
+```
+
+#### client.js
+
+```es6
+import React from 'react'
+import {render} from 'react-dom'
+import {createStore, applyMiddleware} from 'redux'
+import {Provider} from 'react-redux'
+import reducer from './reducer'
+import Counter from './Counter'
+import counterFeature from './counterFeature'
+import {loadFeatureMiddleware, featureMiddlewaresMiddleware, addFeature, loadInitialFeatures} from 'redux-features'
+
+const store = createStore(
+  reducer,
+  window.__INITIAL_STATE__,
+  applyMiddleware(
+    loadFeatureMiddleware(),
+    featureMiddlewaresMiddleware()
+  )
+)
+store.dispatch(addFeature(counterFeature))
+store.dispatch(loadInitialFeatures())
+
+render(
+  <Provider store={store}>
+    <Counter />
+  </Provider>,
+  document.getElementById('root')
+)
+```
