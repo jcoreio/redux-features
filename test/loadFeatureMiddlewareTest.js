@@ -31,6 +31,7 @@ describe('loadFeatureMiddleware', () => {
       store.dispatch(addFeature('f1', f1))
       expect(init.args[0][0].dispatch).to.be.an.instanceOf(Function)
       expect(init.args[0][0].getState).to.be.an.instanceOf(Function)
+      expect(init.args[0][1]).to.equal('f1')
     })
     it("doesn't call init on features that are already added", () => {
       const init = sinon.spy()

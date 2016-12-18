@@ -22,7 +22,7 @@ export default function loadFeatureMiddleware<S, A: {type: $Subtype<string>}>(
       const priorFeature = (getFeatures(store.getState()) || {})[id]
       const result = next(action)
       const feature = (getFeatures(store.getState()) || {})[id]
-      if (!priorFeature && feature && feature.init instanceof Function) feature.init(store)
+      if (!priorFeature && feature && feature.init instanceof Function) feature.init(store, id)
       return result
     },
     [LOAD_FEATURE]: (store: MiddlewareAPI<S, A | FeatureAction>) => (next: Dispatch<A | FeatureAction>) => (action: any): any => {
