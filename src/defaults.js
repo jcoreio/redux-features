@@ -5,15 +5,15 @@ import type {Reducer, Middleware, MiddlewareAPI, Dispatch} from './index.js.flow
 export const defaultCreateReducer:
   (<S, A: {type: $Subtype<string>}>(reducers: {[actionType: string]: Reducer<S, A>}) => Reducer<S, A>) |
   (<S, A: {type: $Subtype<string>}>(initialState: S, reducers: {[actionType: string]: Reducer<S, A>}) => Reducer<S, A>)
-  = function <S, A: {type: $Subtype<string>}>(): Reducer<S, A> {
-  const initialState = arguments[1] ? arguments[0] : undefined
-  const reducers = arguments[1] ? arguments[1] : arguments[0]
-  return function actionHandlerReducer(state: S, action: A): S {
-    if (state === undefined && initialState !== undefined) state = initialState
-    const reducer = reducers[action.type]
-    return reducer ? reducer(state, action) : state
+  = function <S, A: {type: $Subtype<string>}> (): Reducer<S, A> {
+    const initialState = arguments[1] ? arguments[0] : undefined
+    const reducers = arguments[1] ? arguments[1] : arguments[0]
+    return function actionHandlerReducer(state: S, action: A): S {
+      if (state === undefined && initialState !== undefined) state = initialState
+      const reducer = reducers[action.type]
+      return reducer ? reducer(state, action) : state
+    }
   }
-}
 
 export function defaultComposeReducers<S, A>(...reducers: Array<Reducer<S, A>>): Reducer<S, A> {
   return function composedReducer(state: S, action: A): S {
