@@ -3,7 +3,7 @@
 import {createSelector} from 'reselect'
 import type {Features, Middleware, ComposeMiddleware} from './index.js.flow'
 
-import {defaultComposeMiddleware} from './config'
+import {defaultComposeMiddleware} from './defaults'
 
 export default function featureMiddlewaresMiddleware<S, A: {type: $Subtype<string>}>(
   config?: {

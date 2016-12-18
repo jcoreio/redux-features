@@ -3,7 +3,7 @@
 import type {Reducer, Features, ComposeReducers} from './index.js.flow'
 import {createSelector} from 'reselect'
 
-import {defaultComposeReducers} from './config'
+import {defaultComposeReducers} from './defaults'
 
 export default function featureReducersReducer<S, A>(
   config?: {

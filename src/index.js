@@ -5,7 +5,7 @@ import featureStatesReducer from './featureStatesReducer'
 import featureReducersReducer from './featureReducersReducer'
 import loadFeatureMiddleware from './loadFeatureMiddleware'
 import featureMiddlewaresMiddleware from './featureMiddlewaresMiddleware'
-import {defaultComposeReducers} from './config'
+import {defaultComposeReducers} from './defaults'
 import {
   ACTION_TYPE_PREFIX,
   ADD_FEATURE, LOAD_FEATURE, INSTALL_FEATURE, REPLACE_FEATURE, SET_FEATURE_STATE, LOAD_INITIAL_FEATURES,

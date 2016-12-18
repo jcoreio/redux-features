@@ -12,7 +12,7 @@ describe('featureStatesReducer', () => {
   })
   it('supports custom createReducer', () => {
     const reducer = featureStatesReducer({
-      createReducer: (handlers, initialState) => createReducer(initialState, handlers),
+      createReducer,
     })
     expect(reducer.actionHandlers).to.be.defined
   })
