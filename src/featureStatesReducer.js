@@ -16,7 +16,7 @@ export default function featureStatesReducer(
     [ADD_FEATURE]: (state, {meta: {id}}) => (state[id] ? state : {...state, [id]: 'NOT_LOADED'}),
     [LOAD_FEATURE]: (state, {meta: {id}}) => (state[id] && state[id] !== 'LOADED' ? {...state, [id]: 'LOADING'} : state),
     [INSTALL_FEATURE]: (state, {meta: {id}}) => (state[id] ? {...state, [id]: 'LOADED'} : state),
-    [REPLACE_FEATURE]: state => state,
+    [REPLACE_FEATURE]: (state, {meta: {id}}) => state[id] ? {...state, [id]: 'NOT_LOADED'} : state,
     [SET_FEATURE_STATE]: (state, {payload, meta: {id}}) => (state[id] ? {...state, [id]: payload} : state),
     [LOAD_INITIAL_FEATURES]: state => mapValues(state, fs => fs === 'LOADED' ? 'LOADING' : fs)
   })

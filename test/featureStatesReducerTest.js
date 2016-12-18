@@ -35,7 +35,7 @@ describe('featureStatesReducer', () => {
   it('handles replaceFeature correctly', () => {
     expect(reducer({}, replaceFeature('a', {}))).to.deep.equal({})
     expect(reducer({a: 'NOT_LOADED'}, replaceFeature('a', {}))).to.deep.equal({a: 'NOT_LOADED'})
-    expect(reducer({a: 'LOADED'}, replaceFeature('a', {}))).to.deep.equal({a: 'LOADED'})
+    expect(reducer({a: 'LOADED'}, replaceFeature('a', {}))).to.deep.equal({a: 'NOT_LOADED'})
   })
   it('handles setFeatureState correctly', () => {
     expect(reducer({}, setFeatureState('a', 'LOADING'))).to.deep.equal({})
