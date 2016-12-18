@@ -82,7 +82,6 @@
     "mindfront-redux-utils": "^1.2.0",
     "mocha": "^3.2.0",
     "nyc": "^10.0.0",
-    "pre-commit": "^1.1.3",
     "redux": "^3.6.0",
     "rimraf": "^2.5.4",
     "semantic-release": "^6.3.2",

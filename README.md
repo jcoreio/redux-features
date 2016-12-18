@@ -103,6 +103,14 @@ store.dispatch(loadFeature('counter'))
   })
 ```
 
+## Reserved methods
+
+The following (optional) methods are reserved in features:
+* `load(store)`: called by `loadFeatureMiddleware` when a `loadFeature` action is dispatched.  Returns a `Promise` that
+will resolve to the new content for the feature (which will replace the existing feature in the state).
+* `init(store)`: called by `loadFeatureMiddleware` when a feature is added via an `addFeature` action.  This hook is
+primarily intended to be used by `redux-features-hot-loader`.
+
 ## But Redux state shouldn't contain functions, React components, etc.!!
 
 Yes, I understand.  I thought about ways to store the functions, React components, etc. for features outside of
@@ -363,6 +371,7 @@ async function serverSideRender(request, response) {
 
   const body = renderToString(app)
 
+  // get all state except features
   const {features, ...initialState} = store.getState()
 
   response.status(200).send(`<!DOCTYPE html>

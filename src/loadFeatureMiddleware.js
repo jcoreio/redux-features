@@ -1,7 +1,7 @@
 // @flow
 
 import type {Middleware, Feature, Features, FeatureStates, MiddlewareAPI, Dispatch, FeatureAction} from './index.js.flow'
-import {LOAD_FEATURE, installFeature, setFeatureState, LOAD_INITIAL_FEATURES, loadFeature} from './actions'
+import {ADD_FEATURE, LOAD_FEATURE, installFeature, setFeatureState, LOAD_INITIAL_FEATURES, loadFeature} from './actions'
 import {defaultCreateMiddleware} from './defaults'
 
 export default function loadFeatureMiddleware<S, A: {type: $Subtype<string>}>(
@@ -17,6 +17,14 @@ export default function loadFeatureMiddleware<S, A: {type: $Subtype<string>}>(
   const createMiddleware = config.createMiddleware || defaultCreateMiddleware
 
   return createMiddleware({
+    [ADD_FEATURE]: (store: MiddlewareAPI<S, A | FeatureAction>) => (next: Dispatch<A | FeatureAction>) => (action: any): any => {
+      const id = action.meta && action.meta.id
+      const priorFeature = (getFeatures(store.getState()) || {})[id]
+      const result = next(action)
+      const feature = (getFeatures(store.getState()) || {})[id]
+      if (!priorFeature && feature && feature.init instanceof Function) feature.init(store)
+      return result
+    },
     [LOAD_FEATURE]: (store: MiddlewareAPI<S, A | FeatureAction>) => (next: Dispatch<A | FeatureAction>) => (action: any): any => {
       const id = action.meta && action.meta.id
       const featureStates = getFeatureStates(store.getState()) || {}

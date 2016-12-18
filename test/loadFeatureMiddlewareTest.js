@@ -5,7 +5,7 @@ import {createMiddleware} from 'mindfront-redux-utils'
 import featuresReducer from '../src/featuresReducer'
 import featureStatesReducer from '../src/featureStatesReducer'
 import loadFeatureMiddleware from '../src/loadFeatureMiddleware'
-import {loadFeature, setFeatureState, installFeature, loadInitialFeatures} from '../src/actions'
+import {addFeature, loadFeature, setFeatureState, installFeature, loadInitialFeatures} from '../src/actions'
 import {expect} from 'chai'
 import sinon from 'sinon'
 
@@ -19,6 +19,38 @@ describe('loadFeatureMiddleware', () => {
   beforeEach(() => reducer.reset())
 
   function tests(createTestStore) {
+    it("calls init on added features", () => {
+      const store = createStore(combineReducers({
+        featureStates: featureStatesReducer(),
+        features: featuresReducer(),
+      }), applyMiddleware(loadFeatureMiddleware()))
+
+      const init = sinon.spy()
+      const f1 = {init}
+
+      store.dispatch(addFeature('f1', f1))
+      expect(init.args[0][0].dispatch).to.be.an.instanceOf(Function)
+      expect(init.args[0][0].getState).to.be.an.instanceOf(Function)
+    })
+    it("doesn't call init on features that are already added", () => {
+      const init = sinon.spy()
+      const f1 = {init}
+
+      const store = createStore(combineReducers({
+        featureStates: featureStatesReducer(),
+        features: featuresReducer(),
+      }), {
+        featureStates: {
+          f1: 'NOT_LOADED',
+        },
+        features: {
+          f1,
+        },
+      }, applyMiddleware(loadFeatureMiddleware()))
+
+      store.dispatch(addFeature('f1', f1))
+      expect(init.called).to.be.false
+    })
     it("returns rejected Promise for missing feature", () => {
       let store = createTestStore()
       return store.dispatch(loadFeature('f1', {}))

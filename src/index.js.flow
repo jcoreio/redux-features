@@ -40,6 +40,7 @@ export type FeatureState = 'NOT_LOADED' | 'LOADING' | 'LOADED' | Error
 export type FeatureStates = {[featureId: string]: FeatureState}
 
 export type Feature<S, A> = {
+  init?: (store: MiddlewareAPI<S, A>) => any,
   load?: (store: MiddlewareAPI<S, A>) => Promise<Feature<S, A>>,
   middleware?: Middleware<S, A>,
   reducer?: Reducer<S, A>,
