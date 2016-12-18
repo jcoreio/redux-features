@@ -12,6 +12,8 @@ Asynchronously load Redux reducers and middleware, React Components, react-route
 
 Use [`react-redux-features`](https://github.com/jcoreio/react-redux-features) to create declarative feature loaders that proxy to feature components.
 
+(not yet published.  Docs under construction)
+
 ## Quick start
 
 ```es6
