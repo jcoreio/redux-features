@@ -10,7 +10,8 @@ Asynchronously load Redux reducers and middleware, React Components, react-route
 
 ## Ecosystem
 
-Use [`react-redux-features`](https://github.com/jcoreio/react-redux-features) to create declarative feature loaders that proxy to feature components.
+* [`react-redux-features`](https://github.com/jcoreio/react-redux-features): creates declarative feature loaders that proxy to feature components.
+* [`redux-features-hot-loader`](https://github.com/jcoreio/redux-features-hot-loader): webpack hot reloader for features.
 
 ## Quick start
 
