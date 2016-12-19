@@ -7,6 +7,7 @@
 
 A feature-oriented programming and code-splitting framework for Redux (rewrite of [`redux-plugins-immutable`](https://github.com/jcoreio/redux-plugins-immutable)).
 Asynchronously load Redux reducers and middleware, React Components, react-router routes, etc. using Webpack code splitting.
+Compatible with server-side rendering.
 
 ## Ecosystem
 
