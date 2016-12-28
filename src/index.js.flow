@@ -42,6 +42,7 @@ export type FeatureStates = {[featureId: string]: FeatureState}
 export type Feature<S, A> = {
   init?: (store: MiddlewareAPI<S, A>) => any,
   load?: (store: MiddlewareAPI<S, A>) => Promise<Feature<S, A>>,
+  dependencies?: Array<string>,
   middleware?: Middleware<S, A>,
   reducer?: Reducer<S, A>,
 }

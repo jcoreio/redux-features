@@ -6,7 +6,7 @@ import featuresReducer from '../src/featuresReducer'
 import featureStatesReducer from '../src/featureStatesReducer'
 import loadFeatureMiddleware from '../src/loadFeatureMiddleware'
 import {addFeature, loadFeature, setFeatureState, installFeature, loadInitialFeatures} from '../src/actions'
-import {expect} from 'chai'
+import {expect, assert} from 'chai'
 import sinon from 'sinon'
 
 describe('loadFeatureMiddleware', () => {
@@ -14,6 +14,17 @@ describe('loadFeatureMiddleware', () => {
 
   function createTestStore(initialState, config) {
     return createStore(reducer, initialState, applyMiddleware(loadFeatureMiddleware(config)))
+  }
+
+  function createFullStore(initialState, config) {
+    return createStore(
+      combineReducers({
+        featureStates: featureStatesReducer(config),
+        features: featuresReducer(config),
+      }),
+      initialState,
+      applyMiddleware(loadFeatureMiddleware(config))
+    )
   }
 
   beforeEach(() => reducer.reset())
@@ -264,8 +275,100 @@ describe('loadFeatureMiddleware', () => {
             })
           })
       })
-      it("returns a promise that rejects when any feature fails to load", () => {
-
+      it("returns a promise that rejects when any feature fails to load", async () => {
+        const error = new Error("test!")
+        const store = createStore(combineReducers({
+          featureStates: featureStatesReducer(),
+          features: featuresReducer(),
+        }), {
+          featureStates: {
+            f1: 'LOADED',
+            f2: 'LOADED',
+            f3: 'NOT_LOADED',
+          },
+          features: {
+            f1: {
+              load: () => Promise.reject(error)
+            },
+            f2: {
+              load: () => new Promise(resolve => setTimeout(() => resolve({b: 2}), 100))
+            },
+            f3: {},
+          }
+        }, applyMiddleware(loadFeatureMiddleware()))
+        try {
+          await store.dispatch(loadInitialFeatures())
+          assert.fail('loadInitialFeatures should have rejected')
+        } catch (e) {
+          expect(e).to.equal(error)
+        }
+        expect(store.getState().featureStates).to.deep.equal({
+          f1: error,
+          f2: 'LOADING',
+          f3: 'NOT_LOADED',
+        })
+      })
+    })
+    describe('on features with dependencies', () => {
+      it("loads dependencies", async() => {
+        const loadedDependency = {something: 'cool'}
+        const loadedFeature = {hello: 'world'}
+        const store = createFullStore({
+          featureStates: {
+            f1: 'NOT_LOADED',
+            f2: 'NOT_LOADED',
+          },
+          features: {
+            f1: {
+              load: (store) => Promise.resolve(loadedDependency)
+            },
+            f2: {
+              dependencies: ['f1'],
+              load: (store) => Promise.resolve(loadedFeature)
+            }
+          }
+        })
+        const result = await store.dispatch(loadFeature('f2'))
+        expect(result).to.equal(loadedFeature)
+        expect(store.getState()).to.deep.equal({
+          featureStates: {
+            f1: 'LOADED',
+            f2: 'LOADED',
+          },
+          features: {
+            f1: loadedDependency,
+            f2: loadedFeature,
+          }
+        })
+      })
+      it("rejects if any dependencies fail to load", async () => {
+        const loadedFeature = {hello: 'world'}
+        const error = new Error("test!")
+        const store = createFullStore({
+          featureStates: {
+            f1: 'NOT_LOADED',
+            f2: 'NOT_LOADED',
+          },
+          features: {
+            f1: {
+              load: (store) => Promise.reject(error)
+            },
+            f2: {
+              dependencies: ['f1'],
+              load: (store) => Promise.resolve(loadedFeature)
+            }
+          }
+        })
+        try {
+          await store.dispatch(loadFeature('f2'))
+          assert.fail('loadFeature should have rejected')
+        } catch (e) {
+          expect(e).to.equal(error)
+        }
+        expect(store.getState().featureStates).to.deep.equal({
+          f1: error,
+          f2: error,
+        })
       })
     })
   }

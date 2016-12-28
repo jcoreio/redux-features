@@ -88,7 +88,7 @@ initialization in the background.
 
 ### Feature API
 
-The following optionkal properties on features are handled by `redux-features`.  However, you may add any other
+The following optional properties on features are handled by `redux-features`.  However, you may add any other
 properties you want.
 * `reducer: (state, action) => state`: a reducer to apply to the top-level redux state for each action
 * `middleware: store => next => action => any`: middleware to apply for each action
@@ -97,6 +97,8 @@ properties you want.
   return a promise that will resolve to the full feature after loading.  The full feature **will replace
   the current feature in the redux state**, so initial properties of the feature will be blown away unless you merge
   them into the full feature yourself.
+* `dependencies: Array<string>`: an array of feature ids to load when this feature is loaded.  Circular feature
+  dependencies are not supported, and the behavior is undefined.
 
 ## Quick start
 

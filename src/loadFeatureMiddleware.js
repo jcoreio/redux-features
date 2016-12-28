@@ -41,17 +41,20 @@ export default function loadFeatureMiddleware<S, A: {type: $Subtype<string>}>(
           return Promise.reject(error)
         }
 
-        return (
-          feature.load(store)
-            .catch((error: Error) => {
-              store.dispatch(setFeatureState(id, error)) // https://github.com/facebook/flow/issues/2993
-              throw error
-            })
-            .then((feature: Feature<S, A>): Feature<S, A> => {
-              store.dispatch(installFeature(id, feature)) // https://github.com/facebook/flow/issues/2993
-              return feature
-            })
-        )
+        const featurePromise = feature.load(store)
+        const {dependencies} = feature
+        const promises = Array.isArray(dependencies)
+          ? [...dependencies.map(id => store.dispatch(loadFeature(id))), featurePromise]
+          : [featurePromise]
+
+        return Promise.all(promises).then((features: Array<Feature<S, A>>): Feature<S, A> => {
+          const feature = features[features.length - 1]
+          store.dispatch(installFeature(id, feature))
+          return feature
+        }).catch((error: Error) => {
+          store.dispatch(setFeatureState(id, error))
+          throw error
+        })
       }
       return Promise.reject(new Error('missing feature for id: ', +id))
     },
