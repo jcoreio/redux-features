@@ -97,8 +97,11 @@ properties you want.
   return a promise that will resolve to the full feature after loading.  The full feature **will replace
   the current feature in the redux state**, so initial properties of the feature will be blown away unless you merge
   them into the full feature yourself.
-* `dependencies: Array<string>`: an array of feature ids to load when this feature is loaded.  Circular feature
-  dependencies are not supported, and the behavior is undefined.
+* `dependencies: Array<string>`: an array of feature ids to load when this feature is loaded.  All dependencies will be
+  loaded in parallel with this feature, so they may not be available during the `load` method.  Circular feature
+  dependencies are not supported, and the behavior is undefined.  As an alternative to `dependencies`, you can load
+  other features (by dispatching `loadFeature` actions) in your feature's `load` method, in which case it's easy to
+  wait for those features to load and do something with them before resolving your feature's `load` promise.
 
 ## Quick start
 
