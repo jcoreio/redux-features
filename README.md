@@ -273,7 +273,7 @@ const store = createStore(reducer, initialState, applyMiddleware(
 ))
 ```
 
-### featureReducersReducer
+### `featureReducersReducer`
 
 If any feature has a `reducer` property, then `featureReducersReducer` will call it for each action
 dispatched to the store.  It must be composed with your top-level reducer so that it can pass the top-level state to
@@ -296,7 +296,7 @@ const appReducer = composeReducers(
 )
 ```
 
-### featureMiddlewaresMiddleware
+### `featureMiddlewaresMiddleware`
 
 Just like `featureReducersReducer`, if any feature has a `middleware` property, then `featureMiddlewaresMiddleware` will
 call it for each action dispatched to the store.  If you mount the features anywhere other than `state.features`, you
