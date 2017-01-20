@@ -86,7 +86,7 @@
     "rimraf": "^2.5.4",
     "semantic-release": "^6.3.2",
     "sinon": "^1.17.6",
-    "validate-commit-msg": "^2.8.2"
+    "validate-commit-msg": "^2.9.0"
   },
   "dependencies": {
     "lodash.mapvalues": "^4.6.0",
