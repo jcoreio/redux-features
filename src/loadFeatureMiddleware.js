@@ -41,7 +41,13 @@ export default function loadFeatureMiddleware<S, A: {type: $Subtype<string>}>(
           return Promise.reject(error)
         }
 
-        const featurePromise = feature.load(store)
+        let featurePromise
+        try {
+          featurePromise = feature.load(store)
+        } catch (error) {
+          store.dispatch(setFeatureState(id, error))
+          return Promise.reject(error)
+        }
         const {dependencies} = feature
         const promises = Array.isArray(dependencies)
           ? [...dependencies.map(id => store.dispatch(loadFeature(id))), featurePromise]

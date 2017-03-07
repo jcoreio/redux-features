@@ -123,7 +123,7 @@ describe('loadFeatureMiddleware', () => {
           expect(feature).to.equal(loadedFeature)
         })
     })
-    it("dispatches setFeatureStatus with error and rejects Promise if load() errors", () => {
+    it("dispatches setFeatureStatus with error and rejects Promise if load() rejects", () => {
       let loadError = new Error('this should get deleted')
       let store = createTestStore({
         featureStates: {
@@ -132,6 +132,29 @@ describe('loadFeatureMiddleware', () => {
         features: {
           f1: {
             load: (store) => Promise.reject(loadError)
+          }
+        }
+      })
+      return store.dispatch(loadFeature('f1'))
+        .then(feature => {
+          throw new Error('Promise should have been rejected, instead got: ' + JSON.stringify(feature))
+        })
+        .catch(error => {
+          expect(reducer.calledWith(
+            store.getState(),
+            setFeatureState('f1', loadError)
+          )).to.be.true
+        })
+    })
+    it("dispatches setFeatureStatus with error and rejects Promise if load() throws an error", () => {
+      let loadError = new Error('this should get deleted')
+      let store = createTestStore({
+        featureStates: {
+          f1: 'NOT_LOADED',
+        },
+        features: {
+          f1: {
+            load: (store) => { throw loadError }
           }
         }
       })
