@@ -2,7 +2,7 @@
 
 import type {Feature, FeatureState, FeatureAction} from './index.js.flow'
 
-export const ACTION_TYPE_PREFIX = 'REDUX_FEATURES.'
+export const ACTION_TYPE_PREFIX = '@@redux-features/'
 export const ADD_FEATURE = ACTION_TYPE_PREFIX + 'ADD_FEATURE'
 export const REPLACE_FEATURE = ACTION_TYPE_PREFIX + 'REPLACE_FEATURE'
 export const LOAD_FEATURE = ACTION_TYPE_PREFIX + 'LOAD_FEATURE'
