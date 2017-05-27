@@ -85,7 +85,7 @@
     "redux": "^3.6.0",
     "rimraf": "^2.5.4",
     "semantic-release": "^6.3.2",
-    "sinon": "^1.17.6",
+    "sinon": "^2.3.2",
     "validate-commit-msg": "^2.8.2"
   },
   "dependencies": {
