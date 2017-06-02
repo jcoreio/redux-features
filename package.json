@@ -81,7 +81,7 @@
     "istanbul": "^0.4.5",
     "mindfront-redux-utils": "^1.2.0",
     "mocha": "^3.2.0",
-    "nyc": "^10.0.0",
+    "nyc": "^11.0.0",
     "redux": "^3.6.0",
     "rimraf": "^2.5.4",
     "semantic-release": "^6.3.2",
