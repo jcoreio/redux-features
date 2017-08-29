@@ -1,6 +1,7 @@
 // @flow
 
-import type {Reducer, Features, ComposeReducers} from './index.js.flow'
+import type {Reducer} from 'redux'
+import type {Features, ComposeReducers} from './index.js.flow'
 import {createSelector} from 'reselect'
 
 import {defaultComposeReducers} from './defaults'

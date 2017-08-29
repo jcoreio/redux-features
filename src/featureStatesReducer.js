@@ -2,7 +2,8 @@
 
 import {ADD_FEATURE, LOAD_FEATURE, INSTALL_FEATURE, REPLACE_FEATURE, SET_FEATURE_STATE, LOAD_INITIAL_FEATURES} from './actions'
 import mapValues from 'lodash.mapvalues'
-import type {Reducer, FeatureStates, FeatureAction, CreateReducer} from './index.js.flow'
+import type {Reducer} from 'redux'
+import type {FeatureStates, FeatureAction, CreateReducer} from './index.js.flow'
 
 import {defaultCreateReducer} from './defaults'
 

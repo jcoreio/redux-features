@@ -1,7 +1,8 @@
 // @flow
 
 import {createSelector} from 'reselect'
-import type {Features, Middleware, ComposeMiddleware} from './index.js.flow'
+import type {Middleware} from 'redux'
+import type {Features, ComposeMiddleware} from './index'
 
 import {defaultComposeMiddleware} from './defaults'
 

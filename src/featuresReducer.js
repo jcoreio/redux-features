@@ -1,6 +1,7 @@
 // @flow
 
-import type {Reducer, Features, FeatureAction, CreateReducer} from './index.js.flow'
+import type {Reducer} from 'redux'
+import type {Features, FeatureAction, CreateReducer} from './index.js.flow'
 import {ADD_FEATURE, INSTALL_FEATURE, REPLACE_FEATURE} from './actions'
 
 import {defaultCreateReducer} from './defaults'

@@ -1,5 +1,7 @@
 // @flow
 
+import type {Dispatch, MiddlewareAPI, Store, Reducer, Middleware, ActionCreator} from 'redux'
+
 /*
 
  S = State
@@ -7,27 +9,6 @@
 
  */
 
-export type Dispatch<A: { type: $Subtype<string> }> = (action: A) => any
-
-export type MiddlewareAPI<S, A> = {
-  dispatch: Dispatch<A>,
-  getState(): S,
-}
-
-export type Store<S, A> = {
-  dispatch: Dispatch<A>,
-  getState(): S,
-  subscribe(listener: () => void): () => void,
-  replaceReducer(nextReducer: Reducer<S, A>): void,
-}
-
-export type Reducer<S, A> = (state: S, action: A) => S
-
-export type Middleware<S, A> =
-  (api: MiddlewareAPI<S, A>) =>
-    (next: Dispatch<A>) => Dispatch<A>
-
-export type ActionCreator<A> = (...args: Array<any>) => A
 export type ActionCreators<K, A> = { [key: K]: ActionCreator<A> }
 
 export type CreateReducer<S, A> =

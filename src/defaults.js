@@ -1,6 +1,6 @@
 // @flow
 
-import type {Reducer, Middleware, MiddlewareAPI, Dispatch} from './index.js.flow'
+import type {Reducer, Middleware, MiddlewareAPI, Dispatch} from 'redux'
 
 export const defaultCreateReducer:
   (<S, A: {type: $Subtype<string>}>(reducers: {[actionType: string]: Reducer<S, A>}) => Reducer<S, A>) |

@@ -1,6 +1,7 @@
 // @flow
 
-import type {Middleware, Feature, Features, FeatureStates, MiddlewareAPI, Dispatch, FeatureAction} from './index.js.flow'
+import type {Feature, Features, FeatureStates, FeatureAction} from './index.js.flow'
+import type {Middleware, MiddlewareAPI, Dispatch} from 'redux'
 import {ADD_FEATURE, LOAD_FEATURE, installFeature, setFeatureState, LOAD_INITIAL_FEATURES, loadFeature} from './actions'
 import {defaultCreateMiddleware} from './defaults'
 
