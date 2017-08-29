@@ -9,6 +9,18 @@ A feature-oriented programming and code-splitting framework for Redux (rewrite o
 Asynchronously and atomically load features containing Redux reducers and middleware, React Components, react-router
 routes, etc. using Webpack code splitting. Supports server-side rendering.
 
+## Huh?
+
+When a web app gets big enough, initial page load will be too slow unless you split your code into bundles and avoid loading various features until they're needed. For instance, in a React/Redux app, you may have a `UserProfileView` and `userProfileReducer` that you don't want to load until the user visits your `/user/profile` route.
+
+Webpack provides a foundation for this; you can `System.import` those modules when needed and Webpack will put them in a separate code bundle. And `react-router` versions 2 and 3 support `getComponent` hooks on routes in which you can `System.import` the component to render.
+
+But these are bare-bones tools: they don't automatically show any kind of spinner and tell the user what's happening while a bundle is loading, and more importantly, they don't automatically show the user an error if it fails to load. Also, if you want to load reducers or redux middleware from a separate bundle, you need some way to install them in your redux store once they've loaded. None of these are incredibly difficult problems, and you may have basic solutions to them, but you may not have time to design a systematic, well-organized, DRY solution.
+
+This is where `redux-features` comes in! It allows you to define features, each of which may contain a reducer, middleware, React components, or anything else you want. All you have to do is dispatch a `loadFeature` action, and it takes care of loading them and hooking in your reducer and middleware when it's finished. It stores their loading status and load errors (if any) in Redux state, which you can then connect into a component and display to the user. Together with `react-redux-features`, you can create a component with just a few lines of code that automatically starts loading a feature when it mounts, displays its loading or error status to the user, and renders a React component from the feature once it's loaded.
+
+`redux-features` is also a great plugin framework for your app. A third-party developer can write a feature, following the contract of this package, and by simply adding the feature definition via `redux-features`, it can extend or modify your app's behavior.
+
 ## Ecosystem
 
 * [`react-redux-features`](https://github.com/jcoreio/react-redux-features): creates declarative feature loaders that proxy to feature components.
