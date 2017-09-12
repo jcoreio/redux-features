@@ -61,7 +61,7 @@
     "babel-cli": "^6.18.0",
     "babel-core": "^6.18.2",
     "babel-eslint": "^7.1.1",
-    "babel-plugin-istanbul": "^3.0.0",
+    "babel-plugin-istanbul": "^4.1.1",
     "babel-plugin-syntax-flow": "^6.18.0",
     "babel-plugin-transform-flow-comments": "^6.17.0",
     "babel-plugin-transform-runtime": "^6.15.0",
