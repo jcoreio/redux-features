@@ -12,8 +12,8 @@ import type {Dispatch, MiddlewareAPI, Store, Reducer, Middleware, ActionCreator}
 export type ActionCreators<K, A> = { [key: K]: ActionCreator<A> }
 
 export type CreateReducer<S, A> =
-  (<S, A: {type: $Subtype<string>}>(reducers: {[actionType: string]: Reducer<S, A>}) => Reducer<S, A>) |
-  (<S, A: {type: $Subtype<string>}>(initialState: S, reducers: {[actionType: string]: Reducer<S, A>}) => Reducer<S, A>)
+  (<S, A: {type: $Subtype<string>}>(initialState: S, reducers: {[actionType: string]: Reducer<S, A>}) => Reducer<S, A>) &
+  (<S, A: {type: $Subtype<string>}>(reducers: {[actionType: string]: Reducer<S, A>}) => Reducer<S, A>)
 export type ComposeReducers<S, A> = (...reducers: Array<Reducer<S, A>>) => Reducer<S, A>
 export type ComposeMiddleware<S, A> = (...middlewares: Array<Middleware<S, A>>) => Middleware<S, A>
 

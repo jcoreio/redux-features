@@ -50,8 +50,8 @@ export default function loadFeatureMiddleware<S, A: {type: $Subtype<string>}>(
           return Promise.reject(error)
         }
         const {dependencies} = feature
-        const promises = Array.isArray(dependencies)
-          ? [...dependencies.map(id => store.dispatch(loadFeature(id))), featurePromise]
+        const promises: Array<Promise<Feature<S, A>>> = Array.isArray(dependencies)
+          ? [...dependencies.map(id => (store.dispatch(loadFeature(id)): any)), featurePromise]
           : [featurePromise]
 
         return Promise.all(promises).then((features: Array<Feature<S, A>>): Feature<S, A> => {
@@ -63,7 +63,7 @@ export default function loadFeatureMiddleware<S, A: {type: $Subtype<string>}>(
           throw error
         })
       }
-      return Promise.reject(new Error('missing feature for id: ', +id))
+      return Promise.reject(new Error('missing feature for id: ' + id))
     },
     [LOAD_INITIAL_FEATURES]: (store: MiddlewareAPI<S, A | FeatureAction>) => (next: Dispatch<A | FeatureAction>) => (action: any): any => {
       const featureStates = getFeatureStates(store.getState()) || {}

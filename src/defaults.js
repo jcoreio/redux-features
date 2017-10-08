@@ -3,8 +3,8 @@
 import type {Reducer, Middleware, MiddlewareAPI, Dispatch} from 'redux'
 
 export const defaultCreateReducer:
-  (<S, A: {type: $Subtype<string>}>(reducers: {[actionType: string]: Reducer<S, A>}) => Reducer<S, A>) |
-  (<S, A: {type: $Subtype<string>}>(initialState: S, reducers: {[actionType: string]: Reducer<S, A>}) => Reducer<S, A>)
+  (<S, A: {type: $Subtype<string>}>(initialState: S, reducers: {[actionType: string]: Reducer<S, A>}) => Reducer<S, A>) &
+  (<S, A: {type: $Subtype<string>}>(reducers: {[actionType: string]: Reducer<S, A>}) => Reducer<S, A>)
   = function <S, A: {type: $Subtype<string>}> (): Reducer<S, A> {
     const initialState = arguments[1] ? arguments[0] : undefined
     const reducers = arguments[1] ? arguments[1] : arguments[0]
