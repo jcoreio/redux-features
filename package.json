@@ -75,7 +75,7 @@
     "eslint": "^3.11.1",
     "eslint-plugin-flowtype": "^2.28.2",
     "eslint-watch": "^3.0.0",
-    "flow-bin": "^0.56.0",
+    "flow-bin": "^0.57.3",
     "flow-watch": "^1.1.0",
     "husky": "^0.14.0",
     "istanbul": "^0.4.5",
