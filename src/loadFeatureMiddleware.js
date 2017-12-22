@@ -11,8 +11,7 @@ export default function loadFeatureMiddleware<S, A: {type: $Subtype<string>}>(
     getFeatureStates?: (state: S) => ?FeatureStates,
     createMiddleware?: (middlewares: {[actionType: string]: Middleware<S, A>}) => Middleware<S, A>,
   } = {}
-  // $FlowFixMe
-): Middleware<S, A | FeatureAction> {
+): Middleware<S, A> {
   const getFeatures = config.getFeatures || ((state: any) => state && state.features)
   const getFeatureStates = config.getFeatureStates || ((state: any) => state && state.featureStates)
   const createMiddleware = config.createMiddleware || defaultCreateMiddleware

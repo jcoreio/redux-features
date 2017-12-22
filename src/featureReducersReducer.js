@@ -6,7 +6,7 @@ import {createSelector} from 'reselect'
 
 import {defaultComposeReducers} from './defaults'
 
-export default function featureReducersReducer<S, A>(
+export default function featureReducersReducer<S, A: {type: $Subtype<string>}>(
   config?: {
     getFeatures?: (state: S) => ?Features<S, A>,
     composeReducers?: ComposeReducers<S, A>,

@@ -24,7 +24,7 @@ export function defaultComposeReducers<S, A>(...reducers: Array<Reducer<S, A>>):
   }
 }
 
-export function defaultCreateMiddleware<S, A: {type: $Subtype<string>}>(middlewares: {[actionType: string]: Middleware<S, A>}): Middleware<S, A> {
+export function defaultCreateMiddleware<S, A: {type: $Subtype<String>}, D>(middlewares: {[actionType: string]: Middleware<S, A>}): Middleware<S, A> {
   return (store: MiddlewareAPI<S, A>) => (next: Dispatch<A>) => (action: A) => {
     const middleware = middlewares[action.type]
     if (!middleware) return next(action)

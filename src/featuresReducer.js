@@ -6,7 +6,7 @@ import {ADD_FEATURE, INSTALL_FEATURE, REPLACE_FEATURE} from './actions'
 
 import {defaultCreateReducer} from './defaults'
 
-export default function featuresReducer<S, A>(
+export default function featuresReducer<S, A: {type: $Subtype<string>}>(
   config?: {
     createReducer?: CreateReducer<Features<S, A>, FeatureAction>,
   } = {}
