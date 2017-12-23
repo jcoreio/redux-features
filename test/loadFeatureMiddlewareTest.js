@@ -333,7 +333,7 @@ describe('loadFeatureMiddleware', () => {
       })
     })
     describe('on features with dependencies', () => {
-      it("loads dependencies", async() => {
+      it("loads dependencies", async () => {
         const loadedDependency = {something: 'cool'}
         const loadedFeature = {hello: 'world'}
         const store = createFullStore({
