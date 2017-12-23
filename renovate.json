@@ -1,5 +1,30 @@
 {
   "extends": [
-    "config:base"
-  ]
+    ":separateMajorReleases",
+    ":combinePatchMinorReleases",
+    ":ignoreUnstable",
+    ":prImmediately",
+    ":renovatePrefix",
+    ":updateNotScheduled",
+    ":preserveSemverRanges",
+    ":automergeDisabled",
+    "group:monorepos",
+  ],
+  "automerge": true,
+  "major": {
+    "automerge": false
+  },
+  "dependencies": {
+    "extends": ":semanticCommitType(fix)",
+    "automerge": false
+  },
+  "devDependencies": {
+    "extends": ":semanticCommitType(chore)"
+  },
+  "optionalDependencies": {
+    "extends": ":semanticCommitType(fix)"
+  },
+  "peerDependencies": {
+    "extends": ":semanticCommitType(fix)"
+  }
 }
