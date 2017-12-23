@@ -12,7 +12,7 @@ describe('featuresReducer', () => {
     const reducer = featuresReducer({
       createReducer,
     })
-    expect(reducer.actionHandlers).to.be.defined
+    expect(reducer.actionHandlers).to.exist
   })
   it('handles addFeature correctly', () => {
     expect(reducer({}, addFeature('a', {hello: 'world'}))).to.deep.equal({a: {hello: 'world'}})

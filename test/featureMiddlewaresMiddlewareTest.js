@@ -68,7 +68,7 @@ describe('featureMiddlewaresMiddleware', () => {
     s3.reset()
     const store3 = createTestStore(state3)
     store3.dispatch(action)
-    expect(s1.called).to.be.faflse
+    expect(s1.called).to.be.false
     expect(s2.called).to.be.false
     expect(s3.called).to.be.false
 
@@ -85,7 +85,7 @@ describe('featureMiddlewaresMiddleware', () => {
     s3.reset()
     const store4 = createTestStore(state4)
     store4.dispatch(action)
-    expect(s1.called).to.be.faflse
+    expect(s1.called).to.be.false
     expect(s2.called).to.be.false
     expect(s3.called).to.be.false
   })
