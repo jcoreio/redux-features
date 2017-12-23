@@ -14,7 +14,7 @@ describe('featureStatesReducer', () => {
     const reducer = featureStatesReducer({
       createReducer,
     })
-    expect(reducer.actionHandlers).to.be.defined
+    expect(reducer.actionHandlers).to.exist
   })
   it('handles addFeature correctly', () => {
     expect(reducer({}, addFeature('a', {}))).to.deep.equal({a: 'NOT_LOADED'})
