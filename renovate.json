@@ -8,7 +8,7 @@
     ":updateNotScheduled",
     ":preserveSemverRanges",
     ":automergeDisabled",
-    "group:monorepos",
+    "group:monorepos"
   ],
   "automerge": true,
   "major": {
