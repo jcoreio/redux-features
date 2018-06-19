@@ -1,13 +1,20 @@
 {
-  "presets": ["es2015", "stage-1"],
-  "plugins": [
-    "transform-runtime",
-    "syntax-flow",
-    "transform-flow-comments"
+  presets: [
+    'es2015',
+    'stage-1',
   ],
-  "env": {
-    "test": {
-      "plugins": ["istanbul"]
-    }
-  }
+  plugins: [
+    'transform-runtime',
+    'syntax-flow',
+    'transform-flow-comments',
+    'lodash',
+  ],
+  env: {
+    test: {
+      plugins: [
+        'istanbul',
+        'lodash',
+      ],
+    },
+  },
 }
