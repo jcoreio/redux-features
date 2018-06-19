@@ -34,8 +34,6 @@ const store: Store<State, Action> = createStore(
 )
 
 const feature = {
-  reducer: (state: State, action: Action) => state,
+  reducer: (state: State | void, action: Action) => state,
 }
 store.dispatch(addFeature('test', feature))
-
-

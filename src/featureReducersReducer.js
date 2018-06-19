@@ -15,16 +15,16 @@ export default function featureReducersReducer<S, A: {type: $Subtype<string>}>(
   const getFeatures = config.getFeatures || (state => state ? (state: any).features : {})
   const composeReducers = config.composeReducers || defaultComposeReducers
 
-  const selectFeatureReducers: (state: S) => Reducer<S, A> = createSelector(
-    getFeatures,
+  const selectFeatureReducers: (state: S | void) => Reducer<S, A> = createSelector(
+    state => state ? getFeatures(state) : null,
     (features: ?Features<S, A>): Reducer<S, A> => {
-      if (!features) return state => state
+      if (!features) return state => (state: any)
       const reducers: Array<Reducer<S, A>> = []
       for (let id in features) {
         const {reducer} = features[id]
         if (reducer instanceof Function) reducers.push(reducer)
       }
-      if (!reducers.length) return state => state
+      if (!reducers.length) return state => (state: any)
       return composeReducers(...reducers)
     }
   )

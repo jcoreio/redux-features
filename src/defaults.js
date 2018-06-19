@@ -8,19 +8,22 @@ export const defaultCreateReducer:
   = function <S, A: {type: $Subtype<string>}> (): Reducer<S, A> {
     const initialState = arguments[1] ? arguments[0] : undefined
     const reducers = arguments[1] ? arguments[1] : arguments[0]
-    return function actionHandlerReducer(state: S, action: A): S {
+    return function actionHandlerReducer(state: S | void, action: A): S {
       if (state === undefined && initialState !== undefined) state = initialState
+      if (!state) throw new Error('unable to return defined state')
       const reducer = reducers[action.type]
       return reducer ? reducer(state, action) : state
     }
   }
 
 export function defaultComposeReducers<S, A>(...reducers: Array<Reducer<S, A>>): Reducer<S, A> {
-  return function composedReducer(state: S, action: A): S {
-    return reducers.reduceRight(
-      (state, reducer) => reducer(state, action),
+  return function composedReducer(state: S | void, action: A): S {
+    const result = reducers.reduceRight(
+      (state: S | void, reducer) => (reducer(state, action): any),
       state
     )
+    if (result === undefined) throw new Error('unable to return defined state')
+    return result
   }
 }
 
@@ -35,4 +38,3 @@ export function defaultCreateMiddleware<S, A: {type: $Subtype<string>}>(middlewa
 export function defaultComposeMiddleware<S, A: {type: $Subtype<string>}>(...middlewares: Array<Middleware<S, A>>): Middleware<S, A> {
   return store => next => middlewares.reduceRight((next, handler) => handler(store)(next), next)
 }
-
