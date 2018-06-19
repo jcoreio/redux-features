@@ -1,6 +1,6 @@
 /* @flow */
 
-import type {Feature, FeatureState, FeatureAction} from './index.js.flow'
+import type {Feature, FeatureState, FeatureAction} from './index'
 
 export const ACTION_TYPE_PREFIX = '@@redux-features/'
 export const ADD_FEATURE = ACTION_TYPE_PREFIX + 'ADD_FEATURE'

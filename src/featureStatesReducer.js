@@ -3,7 +3,7 @@
 import {ADD_FEATURE, LOAD_FEATURE, INSTALL_FEATURE, REPLACE_FEATURE, SET_FEATURE_STATE, LOAD_INITIAL_FEATURES} from './actions'
 import { mapValues } from "lodash"
 import type {Reducer} from 'redux'
-import type {FeatureStates, FeatureAction, CreateReducer} from './index.js.flow'
+import type {FeatureStates, FeatureAction, CreateReducer} from './index'
 
 import {defaultCreateReducer} from './defaults'
 
@@ -22,5 +22,3 @@ export default function featureStatesReducer(
     [LOAD_INITIAL_FEATURES]: state => mapValues(state, fs => fs === 'LOADED' ? 'LOADING' : fs)
   })
 }
-
-

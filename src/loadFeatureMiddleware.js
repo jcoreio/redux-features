@@ -1,6 +1,6 @@
 // @flow
 
-import type {Feature, Features, FeatureStates, FeatureAction} from './index.js.flow'
+import type {Feature, Features, FeatureStates, FeatureAction} from './index'
 import type {Middleware, MiddlewareAPI, Dispatch} from 'redux'
 import {ADD_FEATURE, LOAD_FEATURE, installFeature, setFeatureState, LOAD_INITIAL_FEATURES, loadFeature} from './actions'
 import {defaultCreateMiddleware} from './defaults'
@@ -77,5 +77,3 @@ export default function loadFeatureMiddleware<S, A: {type: $Subtype<string>}>(
     },
   })
 }
-
-
