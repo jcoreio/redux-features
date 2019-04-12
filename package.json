@@ -108,6 +108,6 @@
   },
   "dependencies": {
     "lodash": "^4.17.10",
-    "reselect": "^3.0.0"
+    "reselect": "^4.0.0"
   }
 }
