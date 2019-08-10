@@ -2197,11 +2197,11 @@ escodegen@1.8.x:
   optionalDependencies:
     source-map "~0.2.0"
 
-eslint-plugin-flowtype@^2.30.0:
-  version "2.41.0"
-  resolved "https://registry.npmjs.org/eslint-plugin-flowtype/-/eslint-plugin-flowtype-2.41.0.tgz#fd5221c60ba917c059d7ef69686a99cca09fd871"
+eslint-plugin-flowtype@^4.0.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-flowtype/-/eslint-plugin-flowtype-4.2.0.tgz#a89ac991eef6753226eb8871261e266645aca4b9"
   dependencies:
-    lodash "^4.15.0"
+    lodash "^4.17.15"
 
 eslint-scope@^3.7.1:
   version "3.7.1"
@@ -4032,7 +4032,7 @@ lodash.upperfirst@4.3.1:
   version "4.3.1"
   resolved "https://registry.npmjs.org/lodash.upperfirst/-/lodash.upperfirst-4.3.1.tgz#1365edf431480481ef0d1c68957a5ed99d49f7ce"
 
-lodash@^4.0.0, lodash@^4.15.0, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0:
+lodash@^4.0.0, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0:
   version "4.17.4"
   resolved "https://registry.npmjs.org/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
@@ -4043,6 +4043,10 @@ lodash@^4.17.10, lodash@^4.17.5:
 lodash@^4.17.11:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
+
+lodash@^4.17.15:
+  version "4.17.15"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
 
 log-driver@^1.2.5:
   version "1.2.5"
