@@ -180,9 +180,9 @@
   dependencies:
     "@commitlint/config-conventional" "^6.1.3"
 
-"@jedwards1211/eslint-config-flow@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/@jedwards1211/eslint-config-flow/-/eslint-config-flow-1.0.0.tgz#306baa90573f772342f53bef67ef4f2fe3f7cb8c"
+"@jedwards1211/eslint-config-flow@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@jedwards1211/eslint-config-flow/-/eslint-config-flow-2.0.0.tgz#b4eda415303b0c16a12f6b8ea44d431a0d665c33"
 
 "@jedwards1211/eslint-config@^2.0.0":
   version "2.0.0"
