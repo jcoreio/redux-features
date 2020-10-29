@@ -180,9 +180,10 @@
   dependencies:
     "@commitlint/config-conventional" "^6.1.3"
 
-"@jedwards1211/eslint-config-flow@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/@jedwards1211/eslint-config-flow/-/eslint-config-flow-1.0.0.tgz#306baa90573f772342f53bef67ef4f2fe3f7cb8c"
+"@jedwards1211/eslint-config-flow@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@jedwards1211/eslint-config-flow/-/eslint-config-flow-3.0.0.tgz#18907282c681247806fe85e79e285977fc9c4844"
+  integrity sha512-M09lZum68xW/Wv8gBqzmaPkb0pLY2CWTrMrT6iaavhjcOMcFLyoVHF1EpIZRIDU2f1zo1lBEcnXr8vt1Aj5tGw==
 
 "@jedwards1211/eslint-config@^2.0.0":
   version "2.0.0"
