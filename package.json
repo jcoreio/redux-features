@@ -94,7 +94,7 @@
     "flow-bin": "^0.97.0",
     "flow-copy-source": "^1.2.1",
     "flow-watch": "^1.1.0",
-    "husky": "^0.14.3",
+    "husky": "^6.0.0",
     "istanbul": "^0.4.5",
     "mindfront-redux-utils": "^2.0.0",
     "mocha": "^6.0.0",
