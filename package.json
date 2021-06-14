@@ -97,7 +97,7 @@
     "husky": "^0.14.3",
     "istanbul": "^0.4.5",
     "mindfront-redux-utils": "^2.0.0",
-    "mocha": "^6.0.0",
+    "mocha": "^9.0.0",
     "nyc": "^11.4.1",
     "redux": "^3.6.0",
     "rimraf": "^2.6.0",
