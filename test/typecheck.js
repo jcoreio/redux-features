@@ -1,19 +1,26 @@
 // @flow
 
-import type {Features, FeatureStates, FeatureAction} from '../src/index'
+import type { Features, FeatureStates, FeatureAction } from '../src/index'
 import {
-  composeReducers, featuresReducer, featureStatesReducer, featureReducersReducer,
-  loadFeatureMiddleware, featureMiddlewaresMiddleware, addFeature,
+  composeReducers,
+  featuresReducer,
+  featureStatesReducer,
+  featureReducersReducer,
+  loadFeatureMiddleware,
+  featureMiddlewaresMiddleware,
+  addFeature,
 } from '../src'
-import {combineReducers, createStore, applyMiddleware} from 'redux'
-import type {Store, Reducer} from 'redux'
+import { combineReducers, createStore, applyMiddleware } from 'redux'
+import type { Store, Reducer } from 'redux'
 
-type Action = {
-  type: string,
-  payload?: any,
-  meta?: Object,
-  error?: boolean,
-} | FeatureAction
+type Action =
+  | {
+      type: string,
+      payload?: any,
+      meta?: Object,
+      error?: boolean,
+    }
+  | FeatureAction
 
 type State = {
   features: Features<State, Action>,

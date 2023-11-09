@@ -5,11 +5,21 @@ import featureStatesReducer from './featureStatesReducer'
 import featureReducersReducer from './featureReducersReducer'
 import loadFeatureMiddleware from './loadFeatureMiddleware'
 import featureMiddlewaresMiddleware from './featureMiddlewaresMiddleware'
-import {defaultComposeReducers} from './defaults'
+import { defaultComposeReducers } from './defaults'
 import {
   ACTION_TYPE_PREFIX,
-  ADD_FEATURE, LOAD_FEATURE, INSTALL_FEATURE, REPLACE_FEATURE, SET_FEATURE_STATE, LOAD_INITIAL_FEATURES,
-  addFeature, loadFeature, installFeature, replaceFeature, setFeatureState, loadInitialFeatures,
+  ADD_FEATURE,
+  LOAD_FEATURE,
+  INSTALL_FEATURE,
+  REPLACE_FEATURE,
+  SET_FEATURE_STATE,
+  LOAD_INITIAL_FEATURES,
+  addFeature,
+  loadFeature,
+  installFeature,
+  replaceFeature,
+  setFeatureState,
+  loadInitialFeatures,
 } from './actions'
 
 export {
@@ -20,11 +30,21 @@ export {
   featureMiddlewaresMiddleware,
   defaultComposeReducers as composeReducers,
   ACTION_TYPE_PREFIX,
-  ADD_FEATURE, LOAD_FEATURE, INSTALL_FEATURE, REPLACE_FEATURE, SET_FEATURE_STATE, LOAD_INITIAL_FEATURES,
-  addFeature, loadFeature, installFeature, replaceFeature, setFeatureState, loadInitialFeatures,
+  ADD_FEATURE,
+  LOAD_FEATURE,
+  INSTALL_FEATURE,
+  REPLACE_FEATURE,
+  SET_FEATURE_STATE,
+  LOAD_INITIAL_FEATURES,
+  addFeature,
+  loadFeature,
+  installFeature,
+  replaceFeature,
+  setFeatureState,
+  loadInitialFeatures,
 }
 
-import type {MiddlewareAPI, Reducer, Middleware, ActionCreator} from 'redux'
+import type { MiddlewareAPI, Reducer, Middleware, ActionCreator } from 'redux'
 
 /*
 
@@ -35,14 +55,22 @@ import type {MiddlewareAPI, Reducer, Middleware, ActionCreator} from 'redux'
 
 export type ActionCreators<K, A> = { [key: K]: ActionCreator<A> }
 
-export type CreateReducer<S, A> =
-  (<S, A: {type: $Subtype<string>}>(initialState: S, reducers: {[actionType: string]: Reducer<S, A>}) => Reducer<S, A>) &
-  (<S, A: {type: $Subtype<string>}>(reducers: {[actionType: string]: Reducer<S, A>}) => Reducer<S, A>)
-export type ComposeReducers<S, A> = (...reducers: Array<Reducer<S, A>>) => Reducer<S, A>
-export type ComposeMiddleware<S, A> = (...middlewares: Array<Middleware<S, A>>) => Middleware<S, A>
+export type CreateReducer<S, A> = (<S, A: { type: $Subtype<string> }>(
+  initialState: S,
+  reducers: { [actionType: string]: Reducer<S, A> }
+) => Reducer<S, A>) &
+  (<S, A: { type: $Subtype<string> }>(reducers: {
+    [actionType: string]: Reducer<S, A>,
+  }) => Reducer<S, A>)
+export type ComposeReducers<S, A> = (
+  ...reducers: Array<Reducer<S, A>>
+) => Reducer<S, A>
+export type ComposeMiddleware<S, A> = (
+  ...middlewares: Array<Middleware<S, A>>
+) => Middleware<S, A>
 
 export type FeatureState = 'NOT_LOADED' | 'LOADING' | 'LOADED' | Error
-export type FeatureStates = {[featureId: string]: FeatureState}
+export type FeatureStates = { [featureId: string]: FeatureState }
 
 export type Feature<S, A> = {
   init?: (store: MiddlewareAPI<S, A>) => any,
@@ -51,10 +79,10 @@ export type Feature<S, A> = {
   middleware?: Middleware<S, A>,
   reducer?: Reducer<S, A>,
 }
-export type Features<S, A> = {[featureId: string]: Feature<S, A>}
+export type Features<S, A> = { [featureId: string]: Feature<S, A> }
 
 export type FeatureAction = {
   type: string,
   payload?: any,
-  meta?: {id: string},
+  meta?: { id: string },
 }

@@ -14,7 +14,7 @@
  */
 
 declare module 'babel-plugin-syntax-flow' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 /**
@@ -23,10 +23,10 @@ declare module 'babel-plugin-syntax-flow' {
  * needed.
  */
 declare module 'babel-plugin-syntax-flow/lib/index' {
-  declare module.exports: any;
+  declare module.exports: any
 }
 
 // Filename aliases
 declare module 'babel-plugin-syntax-flow/lib/index.js' {
-  declare module.exports: $Exports<'babel-plugin-syntax-flow/lib/index'>;
+  declare module.exports: $Exports<'babel-plugin-syntax-flow/lib/index'>
 }

@@ -1,24 +1,26 @@
 import featureMiddlewaresMiddleware from '../src/featureMiddlewaresMiddleware'
-import {createStore, applyMiddleware} from 'redux'
-import {composeMiddleware} from 'mindfront-redux-utils'
-import {expect} from 'chai'
+import { createStore, applyMiddleware } from 'redux'
+import { composeMiddleware } from 'mindfront-redux-utils'
+import { expect } from 'chai'
 import sinon from 'sinon'
 
 describe('featureMiddlewaresMiddleware', () => {
   function createTestStore(initialState, config) {
-    return createStore(state => state, initialState, applyMiddleware(
-      featureMiddlewaresMiddleware(config)
-    ))
+    return createStore(
+      (state) => state,
+      initialState,
+      applyMiddleware(featureMiddlewaresMiddleware(config))
+    )
   }
 
   it('calls feature middlewares in order', () => {
-    const s1 = sinon.spy(a => a)
-    const s2 = sinon.spy(a => a)
-    const s3 = sinon.spy(a => a)
+    const s1 = sinon.spy((a) => a)
+    const s2 = sinon.spy((a) => a)
+    const s3 = sinon.spy((a) => a)
 
-    const m1 = store => next => action => next(s1(action))
-    const m2 = store => next => action => next(s2(action))
-    const m3 = store => next => action => next(s3(action))
+    const m1 = (store) => (next) => (action) => next(s1(action))
+    const m2 = (store) => (next) => (action) => next(s2(action))
+    const m3 = (store) => (next) => (action) => next(s3(action))
 
     const initState = {
       featureStates: {
@@ -27,16 +29,16 @@ describe('featureMiddlewaresMiddleware', () => {
         c: 'LOADED',
       },
       features: {
-        a: {middleware: m1},
-        b: {middleware: m2},
-        c: {middleware: m3},
+        a: { middleware: m1 },
+        b: { middleware: m2 },
+        c: { middleware: m3 },
         d: {},
         e: {},
-      }
+      },
     }
 
     const store = createTestStore(initState)
-    const action = {type: 'test'}
+    const action = { type: 'test' }
     store.dispatch(action)
     expect(s1.calledWith(action)).to.be.true
     expect(s2.calledWith(action)).to.be.true
@@ -49,9 +51,9 @@ describe('featureMiddlewaresMiddleware', () => {
         a: 'LOADED',
       },
       features: {
-        a: {middleware: m1},
+        a: { middleware: m1 },
         e: {},
-      }
+      },
     }
     s1.reset()
     s2.reset()
@@ -78,7 +80,7 @@ describe('featureMiddlewaresMiddleware', () => {
       },
       features: {
         a: {},
-      }
+      },
     }
     s1.reset()
     s2.reset()
@@ -90,13 +92,13 @@ describe('featureMiddlewaresMiddleware', () => {
     expect(s3.called).to.be.false
   })
   it('supports custom getFeatures', () => {
-    const s1 = sinon.spy(a => a)
-    const s2 = sinon.spy(a => a)
-    const s3 = sinon.spy(a => a)
+    const s1 = sinon.spy((a) => a)
+    const s2 = sinon.spy((a) => a)
+    const s3 = sinon.spy((a) => a)
 
-    const m1 = store => next => action => next(s1(action))
-    const m2 = store => next => action => next(s2(action))
-    const m3 = store => next => action => next(s3(action))
+    const m1 = (store) => (next) => (action) => next(s1(action))
+    const m2 = (store) => (next) => (action) => next(s2(action))
+    const m3 = (store) => (next) => (action) => next(s3(action))
 
     const initState = {
       theFeatureStates: {
@@ -105,18 +107,18 @@ describe('featureMiddlewaresMiddleware', () => {
         c: 'LOADED',
       },
       theFeatures: {
-        a: {middleware: m1},
-        b: {middleware: m2},
-        c: {middleware: m3},
+        a: { middleware: m1 },
+        b: { middleware: m2 },
+        c: { middleware: m3 },
         d: {},
         e: {},
-      }
+      },
     }
 
     const store = createTestStore(initState, {
-      getFeatures: state => state.theFeatures,
+      getFeatures: (state) => state.theFeatures,
     })
-    const action = {type: 'test'}
+    const action = { type: 'test' }
     store.dispatch(action)
     expect(s1.calledWith(action)).to.be.true
     expect(s2.calledWith(action)).to.be.true
@@ -125,13 +127,13 @@ describe('featureMiddlewaresMiddleware', () => {
     expect(s2.calledBefore(s3)).to.be.true
   })
   it('supports custom composeMiddleware', () => {
-    const s1 = sinon.spy(a => a)
-    const s2 = sinon.spy(a => a)
-    const s3 = sinon.spy(a => a)
+    const s1 = sinon.spy((a) => a)
+    const s2 = sinon.spy((a) => a)
+    const s3 = sinon.spy((a) => a)
 
-    const m1 = store => next => action => next(s1(action))
-    const m2 = store => next => action => next(s2(action))
-    const m3 = store => next => action => next(s3(action))
+    const m1 = (store) => (next) => (action) => next(s1(action))
+    const m2 = (store) => (next) => (action) => next(s2(action))
+    const m3 = (store) => (next) => (action) => next(s3(action))
 
     const initState = {
       featureStates: {
@@ -140,12 +142,12 @@ describe('featureMiddlewaresMiddleware', () => {
         c: 'LOADED',
       },
       features: {
-        a: {middleware: m1},
-        b: {middleware: m2},
-        c: {middleware: m3},
+        a: { middleware: m1 },
+        b: { middleware: m2 },
+        c: { middleware: m3 },
         d: {},
         e: {},
-      }
+      },
     }
 
     const cms = sinon.spy(composeMiddleware)
@@ -153,7 +155,7 @@ describe('featureMiddlewaresMiddleware', () => {
     const store = createTestStore(initState, {
       composeMiddleware: cms,
     })
-    const action = {type: 'test'}
+    const action = { type: 'test' }
     store.dispatch(action)
     expect(s1.calledWith(action)).to.be.true
     expect(s2.calledWith(action)).to.be.true

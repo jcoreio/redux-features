@@ -1,7 +1,7 @@
 // flow-typed signature: f80f981d039947b3f29f0f437061852a
 // flow-typed version: da30fe6876/chai_v3.5.x/flow_>=v0.25.0
 
-declare module "chai" {
+declare module 'chai' {
   declare type ExpectChain<T> = {
     and: ExpectChain<T>,
     at: ExpectChain<T>,
@@ -121,12 +121,12 @@ declare module "chai" {
     dispatchedActions: (
       actions: Array<Object | ((action: Object) => any)>
     ) => ExpectChain<T>,
-    dispatchedTypes: (actions: Array<string>) => ExpectChain<T>
-  };
+    dispatchedTypes: (actions: Array<string>) => ExpectChain<T>,
+  }
 
-  declare function expect<T>(actual: T): ExpectChain<T>;
+  declare function expect<T>(actual: T): ExpectChain<T>
 
-  declare function use(plugin: (chai: Object, utils: Object) => void): void;
+  declare function use(plugin: (chai: Object, utils: Object) => void): void
 
   declare class assert {
     static (expression: mixed, message?: string): void;
@@ -253,6 +253,6 @@ declare module "chai" {
   declare var config: {
     includeStack: boolean,
     showDiff: boolean,
-    truncateThreshold: number
-  };
+    truncateThreshold: number,
+  }
 }

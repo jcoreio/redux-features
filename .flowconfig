@@ -4,6 +4,9 @@
 <PROJECT_ROOT>/node_modules/fbjs/.*
 <PROJECT_ROOT>/node_modules/.*/fbjs/.*
 <PROJECT_ROOT>/node_modules/findup/test/.*
+<PROJECT_ROOT>/dist/.*
+.*/malformed_package_json/.*
+.*/findup/.*
 
 [include]
 ./src
