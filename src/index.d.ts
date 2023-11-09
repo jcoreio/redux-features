@@ -18,6 +18,13 @@ import {
   replaceFeature,
   setFeatureState,
   loadInitialFeatures,
+  AddFeatureAction,
+  LoadFeatureAction,
+  InstallFeatureAction,
+  ReplaceFeatureAction,
+  SetFeatureStateAction,
+  LoadInitialFeaturesAction,
+  FeatureAction,
 } from './actions'
 export {
   featuresReducer,
@@ -39,6 +46,13 @@ export {
   replaceFeature,
   setFeatureState,
   loadInitialFeatures,
+  AddFeatureAction,
+  LoadFeatureAction,
+  InstallFeatureAction,
+  ReplaceFeatureAction,
+  SetFeatureStateAction,
+  LoadInitialFeaturesAction,
+  FeatureAction,
 }
 import type {
   MiddlewareAPI,
@@ -80,11 +94,3 @@ export type Features<
   A extends AnyAction = AnyAction,
   D extends Dispatch = Dispatch<A>
 > = Record<string, Feature<S, A, D>>
-
-export type FeatureAction = {
-  type: string
-  payload?: any
-  meta?: {
-    id: string
-  }
-}
