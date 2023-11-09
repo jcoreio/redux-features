@@ -40,37 +40,47 @@ export {
   setFeatureState,
   loadInitialFeatures,
 }
-import type { MiddlewareAPI, Reducer, Middleware, ActionCreator } from 'redux'
-export type ActionCreators<K extends string | number | symbol, A> = Partial<
-  Record<K, ActionCreator<A>>
->
-export interface CreateReducer<S> {
-  (
-    initialState: S,
-    reducers: {
-      [actionType: string]: Reducer<S>
-    }
-  ): Reducer<S>
-  (reducers: { [actionType: string]: Reducer<S> }): Reducer<S>
+import type {
+  MiddlewareAPI,
+  Reducer,
+  Middleware,
+  AnyAction,
+  Dispatch,
+} from 'redux'
+
+export interface CreateReducer<S, A extends AnyAction = AnyAction> {
+  (initialState: S, reducers: Record<A['type'], Reducer<S, A>>): Reducer<S>
+  (reducers: Record<A['type'], Reducer<S, A>>): Reducer<S>
 }
-export type ComposeReducers<S> = (...reducers: Array<Reducer<S>>) => Reducer<S>
-export type ComposeMiddleware = (
-  ...middlewares: Array<Middleware>
-) => Middleware
+export type ComposeReducers<S, A extends AnyAction = AnyAction> = (
+  ...reducers: Array<Reducer<S, A>>
+) => Reducer<S, A>
+export type ComposeMiddleware<
+  DispatchExt = {},
+  S = any,
+  D extends Dispatch = Dispatch
+> = (
+  ...middlewares: Array<Middleware<DispatchExt, S, D>>
+) => Middleware<DispatchExt, S, D>
 export type FeatureState = 'NOT_LOADED' | 'LOADING' | 'LOADED' | Error
-export type FeatureStates = {
-  [featureId: string]: FeatureState
-}
-export type Feature<S> = {
-  init?: (store: MiddlewareAPI<S>) => any
-  load?: (store: MiddlewareAPI<S>) => Promise<Feature<S>>
+export type FeatureStates = Record<string, FeatureState>
+export type Feature<
+  S = any,
+  A extends AnyAction = AnyAction,
+  D extends Dispatch = Dispatch<A>
+> = {
+  init?: (store: MiddlewareAPI<D, S>) => any
+  load?: (store: MiddlewareAPI<D, S>) => Promise<Feature<S, A>>
   dependencies?: Array<string>
-  middleware?: Middleware
-  reducer?: Reducer<S>
+  middleware?: Middleware<any, S, D>
+  reducer?: Reducer<S, A>
 }
-export type Features<S> = {
-  [featureId: string]: Feature<S>
-}
+export type Features<
+  S,
+  A extends AnyAction = AnyAction,
+  D extends Dispatch = Dispatch<A>
+> = Record<string, Feature<S, A, D>>
+
 export type FeatureAction = {
   type: string
   payload?: any

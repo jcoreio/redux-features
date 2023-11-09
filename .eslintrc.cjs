@@ -4,4 +4,7 @@ module.exports = {
   env: {
     es6: true,
   },
+  rules: {
+    '@typescript-eslint/ban-types': 0,
+  },
 }

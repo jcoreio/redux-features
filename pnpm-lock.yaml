@@ -74,8 +74,8 @@ devDependencies:
     specifier: ^10.2.0
     version: 10.2.0
   redux:
-    specifier: ^3.6.0
-    version: 3.7.2
+    specifier: ^4.2.1
+    version: 4.2.1
   rimraf:
     specifier: ^2.6.0
     version: 2.7.1
@@ -4977,9 +4977,11 @@ packages:
   /loose-envify@1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
     hasBin: true
+    requiresBuild: true
     dependencies:
       js-tokens: 4.0.0
     dev: true
+    optional: true
 
   /loupe@2.3.7:
     resolution: {integrity: sha512-zSMINGVYkdpYSOBmLi0D1Uo7JU9nVdQKrHxC8eYlV+9YKK9WePqAlL7lSlorG/U2Fw1w0hTBmaa/jrQ3UbPHtA==}
@@ -5941,11 +5943,19 @@ packages:
 
   /redux@3.7.2:
     resolution: {integrity: sha512-pNqnf9q1hI5HHZRBkj3bAngGZW/JMCmexDlOxw4XagXY2o1327nHH54LoTjiPJ0gizoqPDRqWyX/00g0hD6w+A==}
+    requiresBuild: true
     dependencies:
       lodash: 4.17.21
       lodash-es: 4.17.21
       loose-envify: 1.4.0
       symbol-observable: 1.2.0
+    dev: true
+    optional: true
+
+  /redux@4.2.1:
+    resolution: {integrity: sha512-LAUYz4lc+Do8/g7aeRa8JkyDErK6ekstQaqWQrNRW//MY1TvCEpMtpTWvlQ+FPbWCx+Xixu/6SHt5N0HR+SB4w==}
+    dependencies:
+      '@babel/runtime': 7.23.2
     dev: true
 
   /regenerate-unicode-properties@10.1.1:
@@ -6608,7 +6618,9 @@ packages:
   /symbol-observable@1.2.0:
     resolution: {integrity: sha512-e900nM8RRtGhlV36KGEU9k65K3mPb1WV70OdjfxlG2EAuM1noi/E/BaW/uMhL7bPEssK8QV57vN3esixjUvcXQ==}
     engines: {node: '>=0.10.0'}
+    requiresBuild: true
     dev: true
+    optional: true
 
   /temp-dir@3.0.0:
     resolution: {integrity: sha512-nHc6S/bwIilKHNRgK/3jlhDoIHcp45YgyiwcAk46Tr0LfEqGBVpmiAyuiuxeVE44m3mXnEeVhaipLOEWmH+Njw==}
